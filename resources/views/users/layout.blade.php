@@ -5,110 +5,70 @@
 
     <link href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 
-    <style>
-            body{
-                margin:0;
-                display:flex;
-                min-height:100vh;
-                background-color:#1a202c;
-                padding:4rem;
-                color:#FDF7DD;
-                font-family: 'Nunito', sans-serif
-            }*,:after,:before{
-                box-sizing:border-box;
-                border:0 solid #e2e8f0
-            }a{
-                background-color:transparent;
-                color:inherit;
-                text-decoration:inherit
-            }.main-btn{
-                display: inline-flex;
-                margin-top:0.75rem;
-                font-size:1.125rem;
-                font-weight:600
-            }.rounded-container{
-                box-shadow:0 1px 3px 0 rgba(0,0,0,.1),0 1px 2px 0 rgba(0,0,0,.06);
-                border-radius:.5rem;
-                justify-content:center
-            }.bg-light{
-               background-color:#2D3748
-            }.bg-green{
-                background-color:#3C6257
-            }.bg-red{
-                background-color:#6A2020
-            }.btn-txt{
-                color:#FDF7DD;
-                font-family: 'Nunito', sans-serif;
-                padding:0;
-                margin:0
-            }.m-bottom{
-                margin-bottom:2rem
-            }.sm-btn{
-                display: inline-flex;
-                font-size:1rem;
-                font-weight:600
-            }.flex{
-                display:flex
-            }.inline-flex{
-                display: inline-flex
-            }.justify-center{
-                justify-content:center
-            }.font-semibold{
-                font-weight:600
-            }.font-black{
-                font-weight:900
-            }.text-lg{
-                font-size:1.125rem
-            }.text-xlg{
-                font-size:2rem
-            }.mt-8{
-                margin-top:2rem
-            }.m-vert{
-                margin-top:0.75rem;
-                margin-bottom:2rem
-            }.m-hor{
-                margin-right:0.5rem;
-                margin-left:0.5rem
-            }.m-bt{
-                margin-bottom:2rem
-            }.p-6{
-                padding:1.5rem
-            }.p-3{
-                padding:0.75rem
-            }.shadow{
-                box-shadow:0 1px 3px 0 rgba(0,0,0,.1),0 1px 2px 0 rgba(0,0,0,.06)
-            }.px-8{
-                padding-left:2rem;padding-right:2rem
-            }.big-btn-p{
-                padding-left:2rem;padding-right:2rem; padding-top: 0.05rem; padding-bottom: 0.05rem
-            }.paginator{
-                align-items:center;
-                justify-content:center;
-                display:flex
-            }
-            input{
-                width: 100%;
-                padding: 12px 20px;
-                margin: 8px 0
-            }
-            td {
-                border-bottom: 1px solid #ddd;
-                padding: 15px
-            }
-            th{
-                background-color:#2d3748;
-                border-bottom: 1px solid #ddd;
-                padding: 15px
-            }
-            tr:hover {
-                background-color: #0A0F18
-            }
-        </style>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
 </head>
-<body>
-    <div class="container">
-        @yield('content')
+<body class="font-sans antialiased">
+    <div class="container  bg-gray-100">
+        <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
+             <!-- Primary Navigation Menu -->
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between h-16">
+                    <div class="flex">
+                        <!-- Logo -->
+                        <div class="shrink-0 flex items-center">
+                            <a href="{{ route('dashboard') }}">
+                                <x-application-logo class="block h-10 w-auto fill-current text-gray-600" />
+                            </a>
+                        </div>
+
+                        <!-- Navigation Links -->
+                        <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                                {{ __('Dashboard') }}
+                            </x-nav-link>
+                        </div>
+                        <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')">
+                                {{ __('Users') }}
+                            </x-nav-link>
+                        </div>
+                    </div>
+
+                    <!-- Settings Dropdown -->
+                    <div class="hidden sm:flex sm:items-center sm:ml-6">
+                        <x-dropdown align="right" width="48">
+                            <x-slot name="trigger">
+                                <button class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
+                                    <div>{{ Auth::user()->name }}</div>
+                                    <div class="ml-1">
+                                        <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                        </svg>
+                                    </div>
+                                </button>
+                            </x-slot>
+
+                            <x-slot name="content">
+                                <!-- Authentication -->
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+
+                                    <x-dropdown-link :href="route('logout')"
+                                        onclick="event.preventDefault();
+                                        this.closest('form').submit();">
+                                        {{ __('Log Out') }}
+                                    </x-dropdown-link>
+                                </form>
+                            </x-slot>
+                        </x-dropdown>
+                    </div>
+                </div>
+            </div>
+            <div class="min-h-screen bg-gray-100">
+            @yield('content')
+            </div>
+        </nav>
     </div>
 </body>
 </html>
