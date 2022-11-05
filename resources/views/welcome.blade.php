@@ -55,7 +55,7 @@
     <body>
         <div class="ph-8">
             <div class="laravel-title">
-                Laravel Lab#1 <br/> Sotak
+                Laravel Lab#2 <br/> Sotak
             </div>       
                 
             <a class="lab-btn" href="{{ route('users.index') }}">        
